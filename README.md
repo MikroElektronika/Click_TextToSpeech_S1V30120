@@ -2,7 +2,7 @@
 #TextToSpeech click#
 ##By [MikroElektronika](http://www.mikroe.com)
 
-![TextToSpeech_click](http://cdn.mikroe.com/img/click/text-to-speech/texttospeech-click.png)
+![TextToSpeech_click](http://cdn.mikroe.com/img/banners/news/2016/04/text-to-speech-banner-news.png)
 
 ---
 
