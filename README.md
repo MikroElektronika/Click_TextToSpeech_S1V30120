@@ -4,6 +4,13 @@
 
 ![TextToSpeech_click](http://cdn.mikroe.com/img/click/text-to-speech/texttospeech-click.png)
 
+---
+
+[Product Page]( http://www.mikroe.com/click/text-to-speech/ )
+
+[Manual Page](http://docs.mikroe.com/Text_To_Speech_click)
+
+[Learn Page]( http://learn.mikroe.com/make-robot-speak-text-speech/ )
 
 ### Description
 Text To Speech click is a mikroBUS add-on board that carries an Epson S1V30120 speech synthesis IC. 
@@ -17,9 +24,7 @@ SPI interface (MISO, MOSI, SCK, CS) with additional functionality provided by DR
 
 ___________________________________________________________________________________________________
 
-[Product Page]( http://www.mikroe.com/click/text-to-speech/ )
-[Learn Page]( http://learn.mikroe.com/make-robot-speak-text-speech/ )
-
+### Example
 
 ```
 #include "text_to_speech.h"
