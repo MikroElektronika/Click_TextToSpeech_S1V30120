@@ -12,6 +12,8 @@
 
 [Learn Page]( http://learn.mikroe.com/make-robot-speak-text-speech/ )
 
+---
+
 ### Description
 Text To Speech click is a mikroBUS add-on board that carries an Epson S1V30120 speech synthesis IC. 
 The IC is powered by the Fonix DECtalk® v5 speech synthesis engine that can make your robot or 
