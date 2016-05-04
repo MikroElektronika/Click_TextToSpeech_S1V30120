@@ -32,7 +32,7 @@ SPI interface (MISO, MOSI, SCK, CS) with additional functionality provided by DR
 * MCU:             STM32F107VC
 * Dev.Board:       EasyMx Pro v7
 * Oscillator:      72 Mhz internal
-* Ext. Modules:    SHT Click
+* Ext. Modules:    TextToSpeech Click
 * SW:              MikroC PRO for ARM 4.7.0    
 
 ```
