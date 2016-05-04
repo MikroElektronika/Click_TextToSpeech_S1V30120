@@ -24,9 +24,16 @@ sampling rate. Text To Speech click board communicates with the target board mic
 SPI interface (MISO, MOSI, SCK, CS) with additional functionality provided by DRDY, NRST and MUTE pins 
 (in place of default mikroBUS INT, RST and AN pins) It can use either a 3.3V or 5V power supply.
 
-___________________________________________________________________________________________________
+---
 
 ### Example
+
+#### Configuration
+* MCU:             STM32F107VC
+* Dev.Board:       EasyMx Pro v7
+* Oscillator:      72 Mhz internal
+* Ext. Modules:    SHT Click
+* SW:              MikroC PRO for ARM 4.7.0    
 
 ```
 #include "text_to_speech.h"
