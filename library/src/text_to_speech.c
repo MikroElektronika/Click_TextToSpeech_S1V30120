@@ -52,7 +52,7 @@ static bool                 _flush_enable;
 * Function Prototypes
 *******************************************************************************/
 /* Cheks for indications */
-static void _parse_ind( void );
+static int _parse_ind( void );
 /* Message block and error callback function pointers */
 static void ( *_fatal_err_callback )( uint16_t *err_code );
 static void ( *_err_callback )( uint16_t *err_code );

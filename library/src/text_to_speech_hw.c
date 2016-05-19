@@ -12,7 +12,7 @@
 *
 *****************************************************************************/
 /**
- * @file XXX.c
+ * @file text_to_speech_hw.c
  * @brief This module contains the low level function for MikroElektronika's
  * Text to Speech click board.
  */
