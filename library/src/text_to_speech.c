@@ -19,6 +19,7 @@
 * Includes
 *******************************************************************************/
 #include "text_to_speech.h"
+#include "text_to_speech_img.h"
 /******************************************************************************
 * Module Preprocessor Constants
 *******************************************************************************/
@@ -52,7 +53,7 @@ static bool                 _flush_enable;
 * Function Prototypes
 *******************************************************************************/
 /* Cheks for indications */
-static int _parse_ind( void );
+static void _parse_ind( void );
 /* Message block and error callback function pointers */
 static void ( *_fatal_err_callback )( uint16_t *err_code );
 static void ( *_err_callback )( uint16_t *err_code );
@@ -189,6 +190,27 @@ void tts_err_callback( void( *error_ptr )( uint16_t *err_ptr ) )
     _err_callback = error_ptr;
 }
 
+void tts_mute()
+{
+    tts_mute_cmd( true );
+}
+
+void tts_unmute()
+{
+    tts_mute_cmd( false );
+}
+
+void tts_setup()
+{
+    tts_image_load( TTS_INIT_DATA, sizeof( TTS_INIT_DATA ) );
+    tts_image_exec();
+    tts_interface_test();
+    tts_power_default_config();
+    tts_audio_default_config();
+    tts_volume_set( 0 );
+    tts_default_config();
+}
+
 uint16_t tts_version_boot( VER_t *buffer )
 {
     char tmp_char[ 4 ] = { 0 };
@@ -215,7 +237,7 @@ uint16_t tts_version_boot( VER_t *buffer )
     return 0x0000;
 }
 
-uint16_t tts_image_load( uint8_t *image,
+uint16_t tts_image_load( const uint8_t *image,
                          uint16_t count )
 {
     uint16_t tmp_resp = 0;
@@ -224,13 +246,13 @@ uint16_t tts_image_load( uint8_t *image,
 
     while ( ( count - index ) > ( BOOT_MESSAGE_MAX - 4 ) )
     {
-        tts_parse_req( ISC_BOOT_LOAD_REQ, image + index, BOOT_MESSAGE_MAX - 4 );
+        tts_parse_boot_img( image + index, BOOT_MESSAGE_MAX - 4 );
         Delay_ms( 10 );
 
         index += ( BOOT_MESSAGE_MAX - 4 );
     }
 
-    tts_parse_req( ISC_BOOT_LOAD_REQ, image + index, count - index );
+    tts_parse_boot_img( image + index, count - index );
 
     while( !tts_rsp_chk( ISC_BOOT_LOAD_RESP ) )
     {
@@ -604,11 +626,13 @@ uint16_t tts_config( uint8_t voice_type,
 
 uint16_t tts_speak( char *word )
 {
-    bool tmp_f = false;
-    uint16_t tmp_resp = 0;
-    uint8_t raw_resp[ 2 ] = { 0 };
+    bool tmp_f              = false;
+    char *wptr              = word;
+    uint8_t raw_resp[ 2 ]   = { 0 };
+    uint16_t tmp_resp       = 0;
+    uint32_t wlen           = strlen( wptr );
 
-    tts_parse_speak_req( ISC_TTS_SPEAK_REQ, _flush_enable, word );
+    tts_parse_speak_req( ISC_TTS_SPEAK_REQ, _flush_enable, wptr, wlen );
 
     _tts_rdy_f = 0;
     _tts_fin_f = 0;

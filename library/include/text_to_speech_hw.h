@@ -141,11 +141,20 @@
  * of time user should restart the device */
 #define MAX_RESPONSE_TIME                                       500
 /**
- * Maximum message size in main mode */
-#define MAIN_MESSAGE_MAX                                        2116
+ * Maximum message size in main mode. Recomended size is 2116 but
+ * if needed it can be resized to save the RAM space. Note that
+ * MAIN_MESSAGE_MAX must be greater than BOOT_MESSAGE_MAX. This number decreased
+ * by 7 also represents the maximum size of the string that can be sent in one 
+ * command. */
+#define MAIN_MESSAGE_MAX                                        1116
 /**
- * Maximum message size in boot mode */
-#define BOOT_MESSAGE_MAX                                        2048
+ * Maximum message size in boot mode. Recomended size is 2048 but
+ * if needed it can be resized to save RAM space. Note that BOOT_MESSAGE_MAX
+ * must be smaller than MAIN_MESSAGE_MAX */
+#define BOOT_MESSAGE_MAX                                        1048
+/**
+ * Maximum response message max */
+#define RESP_MESSAGE_MAX                                        24
 /**
  * Mark for the start of message */
 #define START_MESSAGE                                           0xAA
@@ -164,8 +173,8 @@
 * Typedefs
 *******************************************************************************/
 /**
- * @struct ISC_MSG_t
- * @brief <h3> Message Structure </h3>
+ * @struct ISC_REQ_t
+ * @brief <h3> Request Message Structure </h3>
  *
  * @par
  * All messages that are received and sent by the device are termed ISC
@@ -188,7 +197,35 @@ typedef struct
      * Payload Part - Message data */
     uint8_t     payload[ MAIN_MESSAGE_MAX ];
 
-}ISC_MSG_t;
+}ISC_REQ_t;
+
+/**
+ * @struct ISC_RESP_t
+ * @brief <h3> Response Message Structure </h3>
+ *
+ * @par
+ * All messages that are received and sent by the device are termed ISC
+ * ( Inter-System-Communication ) messages. An ISC message consists of a
+ * fixed length header part and a variable length payload.
+ */
+typedef struct
+{
+    /**
+     * Header Part - Message length ( including header )
+     * len[ 0 ] - LSB
+     * len[ 1 ] - MSB */
+    uint8_t     len[ 2 ];
+    /**
+     * Header Part - Message code ( index )
+     * idx[ 0 ] - LSB
+     * idx[ 1 ] - MSB */
+    uint8_t     idx[ 2 ];
+    /**
+     * Payload Part - Message data */
+    uint8_t     payload[ RESP_MESSAGE_MAX ];
+
+}ISC_RESP_t;
+
 /******************************************************************************
 * Variables
 *******************************************************************************/
@@ -219,6 +256,16 @@ void tts_hw_init( void );
 void tts_tick_isr( void );
 
 /**
+ * @brief <h3> Mute Command </h3>
+ *
+ * @par
+ * Mute using MUT pin
+ *
+ * @param[in] cmd ( true - mute / false - unmute )
+ */
+void tts_mute_cmd( bool cmd );
+
+/**
  * @brief <h3> Request Parser </h3>
  *
  * @par
@@ -234,6 +281,18 @@ void tts_parse_req( uint16_t req,
                     uint16_t pl_len );
 
 /**
+ * @brief <h3> Boot Image Request Parser </h3>
+ *
+ * @par
+ * Function is used for the boot uploading of boot image
+ *
+ * @param[in] payload - boot image part
+ * @param[in] pl_len - data size
+ */
+void tts_parse_boot_img( const uint8_t *payload,
+                         uint16_t pl_len );
+
+/**
  * @brief <h3> Speak Request Parser </h3>
  *
  * @par
@@ -244,10 +303,12 @@ void tts_parse_req( uint16_t req,
  * @param[in] req - speak request code
  * @param[in] flush_en - flash option
  * @param[in] word - char array
+ * @param[in] word_len - char array length
  */
 void tts_parse_speak_req( uint16_t req,
                           uint8_t flush_en,
-                          char *word );
+                          char *word,
+                          uint16_t word_len );
 
 /**
  * @brief <h3> Response </h3>

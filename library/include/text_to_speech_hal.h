@@ -73,6 +73,22 @@ void tts_hal_cs_high( void );
 void tts_hal_cs_low( void );
 
 /**
+ * @brief <h3> MUT High </h3>
+ *
+ * @par
+ * Used by HW layer to set MUT PIN high ( mute )
+ */
+void tts_hal_mut_high( void );
+
+/**
+ * @brief <h3> MUT Low </h3>
+ *
+ * @par
+ * Used by HW layer to set MUT PIN low ( unmute )
+ */
+void tts_hal_mut_low( void );
+
+/**
  * @brief <h3> Hardware Reset </h3>
  *
  * @par
@@ -112,6 +128,8 @@ void tts_hal_init( void );
  */
 void tts_hal_write( uint8_t *buffer,
                     uint16_t count );
+
+void tts_hal_write_byte( uint8_t byte );
 
 /**
  * @brief <h3> HAL Read </h3>

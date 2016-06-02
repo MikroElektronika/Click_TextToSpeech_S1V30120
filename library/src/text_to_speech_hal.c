@@ -97,6 +97,24 @@ void tts_hal_cs_low()
 #endif
 }
 
+void tts_hal_mut_high()
+{
+#if defined( __GNUC__ )
+
+#else
+    TTS_MUTE = 1;
+#endif
+}
+
+void tts_hal_mut_low()
+{
+#if defined( __GNUC__ )
+
+#else
+    TTS_MUTE = 0;
+#endif
+}
+
 void tts_hal_reset( void )
 {
 #if defined( __GNUC__ )
@@ -140,15 +158,14 @@ void tts_hal_init()
 #endif
     tts_hal_reset();
     tts_hal_cs_low();
+    tts_hal_mut_low();
 }
 
 void tts_hal_write( uint8_t *buffer,
                     uint16_t count )
 {
     while( count-- )
-    {
         write_spi_p( *( buffer++ ) );
-    }
 }
 
 void tts_hal_read( uint8_t *buffer,

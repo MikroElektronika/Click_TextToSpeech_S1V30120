@@ -648,6 +648,31 @@ void tts_fatal_err_callback( void( *fatal_err_ptr )( uint16_t *err_ptr ) );
 void tts_err_callback( void( *error_ptr )( uint16_t *err_ptr ) );
 
 /**
+ * @brief <h3> TTS Hardware Mute </h3>
+ *
+ * @par
+ * Mute using MUT pin
+ */
+void tts_mute( void );
+
+/**
+ * @brief <h3> TTS Hardware Unmute </h3>
+ *
+ * @par
+ * Unmute using MUT pin
+ */
+void tts_unmute( void );
+
+/**
+ * @brief <h3> Default setup </h3>
+ *
+ * @par
+ * Should be used after the @link tts_init @endlink to upload the init data
+ * and configure the click board in the most common manner.
+ */
+void tts_setup( void );
+
+/**
  * @brief <h3> Requests Version in Boot Mode </h3>
  *
  * @par
@@ -699,7 +724,7 @@ uint16_t tts_version_boot( VER_t *version );
  *     UART_Write_Text( "Image loading error");
  * @endcode
  */
-uint16_t tts_image_load( uint8_t *image,
+uint16_t tts_image_load( const uint8_t *image,
                          uint16_t count );
 
 /**
